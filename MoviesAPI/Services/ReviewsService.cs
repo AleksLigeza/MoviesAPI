@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Common;
@@ -24,6 +26,13 @@ namespace MoviesAPI.Services
         {
             var movie = this.moviesContext.Movies.Find(movieId);
             return movie.Reviews.ToList();
+        }
+
+        public async Task<double> GetAverageRate(int movieId)
+        {
+            return await moviesContext.Reviews
+                .Where(x => x.MovieId == movieId)
+                .AverageAsync(x => x.Rate);
         }
 
         public Review GetById(int id)

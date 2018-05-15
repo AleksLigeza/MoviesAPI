@@ -12,6 +12,9 @@ namespace MoviesAPI.DbModels
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<MovieRole> MovieRoles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MoviesAPI.DbModels;
 
 namespace MoviesAPI.Interfaces
@@ -16,5 +17,6 @@ namespace MoviesAPI.Interfaces
         void Remove(int reviewId);
 
         List<Review> GetByMovieId(int movieId);
+        Task<double> GetAverageRate(int movieId);
     }
 }

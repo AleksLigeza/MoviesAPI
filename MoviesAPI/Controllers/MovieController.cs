@@ -3,14 +3,15 @@ using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoviesAPI.Controllers
 {
     [Route("api/[controller]")]
     public class MovieController : Controller
     {
-        private IMoviesService _moviesService;
-        private IReviewsService _reviewsService;
+        private readonly IMoviesService _moviesService;
+        private readonly IReviewsService _reviewsService;
 
         public MovieController(IMoviesService moviesService, IReviewsService reviewsService)
         {
@@ -26,7 +27,7 @@ namespace MoviesAPI.Controllers
         public IActionResult GetAllMovies()
         {
             var list = _moviesService.GetAll();
-            
+
             return Ok(AutoMapper.Mapper.Map<List<MovieResponse>>(list));
         }
 
@@ -40,7 +41,7 @@ namespace MoviesAPI.Controllers
         {
             Movie movie = _moviesService.GetById(movieId);
 
-            if (movie == null)
+            if(movie == null)
             {
                 return NotFound();
             }
@@ -48,11 +49,28 @@ namespace MoviesAPI.Controllers
             return Ok(AutoMapper.Mapper.Map<MovieResponse>(movie));
         }
 
+        /// <summary>
+        /// Get movie reviews
+        /// </summary>
+        /// <param name="movieId">movie identifier</param>
+        /// <returns>Movie reviews</returns>
         [HttpGet("{movieId}/reviews")]
         public IActionResult GetReviews(int movieId)
         {
             var reviews = _reviewsService.GetByMovieId(movieId);
             return Ok(AutoMapper.Mapper.Map<List<ReviewResponse>>(reviews));
+        }
+
+        /// <summary>
+        /// Get movie actors
+        /// </summary>
+        /// <param name="movieId">movie identifier</param>
+        /// <returns>Movie actors/returns>
+        [HttpGet("{movieId}/actors")]
+        public async Task<IActionResult> GetActors(int movieId)
+        {
+            var actors = _moviesService.GetMovieActors(movieId);
+            return Ok(AutoMapper.Mapper.Map<List<ActorResponse>>(actors));
         }
 
         /// <summary>
@@ -76,7 +94,7 @@ namespace MoviesAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]MovieRequest movie)
         {
-            if (_moviesService.UpdateMovie(AutoMapper.Mapper.Map<Movie>(movie)))
+            if(_moviesService.UpdateMovie(AutoMapper.Mapper.Map<Movie>(movie)))
             {
                 return NoContent();
             }
@@ -94,6 +112,42 @@ namespace MoviesAPI.Controllers
         {
             _moviesService.Remove(movieId);
             return Ok();
+        }
+
+        /// <summary>
+        /// Get movie average rate
+        /// </summary>
+        /// <param name="movieId">movie identifier</param>
+        /// <returns>Movie average rate</returns>
+        [HttpGet("{movieId}/rate")]
+        public async Task<IActionResult> GetAverageRate(int movieId)
+        {
+            var rate = await _reviewsService.GetAverageRate(movieId);
+            return Ok(AutoMapper.Mapper.Map<double>(rate));
+        }
+
+        /// <summary>
+        /// Get movies by year
+        /// </summary>
+        /// <param name="year">searched year</param>
+        /// <returns>Movies if found</returns>
+        [HttpGet("{year}")]
+        public async Task<IActionResult> Year(int year)
+        {
+            var movies = await _moviesService.GetMoviesByYear(year);
+            return Ok(AutoMapper.Mapper.Map<List<MovieResponse>>(movies));
+        }
+
+        /// <summary>
+        /// Get movies by title
+        /// </summary>
+        /// <param name="title">searched title</param>
+        /// <returns>Movies if found</returns>
+        [HttpGet("{title}")]
+        public async Task<IActionResult> Title(string title)
+        {
+            var movies = await _moviesService.GetMoviesByTitle(title);
+            return Ok(AutoMapper.Mapper.Map<List<MovieResponse>>(movies));
         }
     }
 }

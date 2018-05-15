@@ -32,6 +32,8 @@ namespace MoviesAPI
 
             services.AddScoped<IMoviesService, MoviesService>();
             services.AddScoped<IReviewsService, ReviewsService>();
+            services.AddScoped<IMovieRolesService, MovieRolesService>();
+            services.AddScoped<IActorsService, ActorsService>();
 
             var connection = @"Server=.\SQLEXPRESS;Database=SharpDev2018Urz1;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<MoviesContext>(options => options

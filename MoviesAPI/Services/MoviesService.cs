@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Common;
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 
@@ -56,6 +59,30 @@ namespace MoviesAPI.Services
             Movie movie = GetById(movieId);
             _moviesContext.Movies.Remove(movie);
             _moviesContext.SaveChanges();
+        }
+
+
+        public async Task<List<Actor>> GetMovieActors(int id)
+        {
+            var actors = await _moviesContext.Actors
+                .Where(x => x.Roles.Any(y => y.MovieId == id))
+                .ToListAsync();
+
+            return actors;
+        }
+
+        public async Task<List<Movie>> GetMoviesByYear(int year)
+        {
+            return await _moviesContext.Movies
+                .Where(x => x.Year == year)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMoviesByTitle(string title)
+        {
+            return await _moviesContext.Movies
+                .Where(x => x.Title.Contains(title))
+                .ToListAsync();
         }
     }
 }

@@ -12,5 +12,6 @@ namespace MoviesAPI.DbModels
         public int Year { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<MovieRole> Roles { get; set; }
     }
 }
