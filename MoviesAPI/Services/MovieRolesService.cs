@@ -41,7 +41,7 @@ namespace MoviesAPI.Services
                 throw new MovieApiException("Invalid actor Id");
             }
 
-            await _moviesContext.MovieRoles.AddAsync(role);
+            _moviesContext.MovieRoles.Add(role);
             await _moviesContext.SaveChangesAsync();
         }
 

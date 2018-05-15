@@ -8,6 +8,7 @@ using MoviesAPI.Interfaces;
 
 namespace MoviesAPI.Controllers
 {
+    [Route("api/[controller]")]
     public class MovieRoleController : Controller
     {
         private readonly IMovieRolesService _movieRolesService;

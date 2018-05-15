@@ -69,7 +69,7 @@ namespace MoviesAPI.Controllers
         [HttpGet("{movieId}/actors")]
         public async Task<IActionResult> GetActors(int movieId)
         {
-            var actors = _moviesService.GetMovieActors(movieId);
+            var actors = await _moviesService.GetMovieActors(movieId);
             return Ok(AutoMapper.Mapper.Map<List<ActorResponse>>(actors));
         }
 
@@ -131,7 +131,7 @@ namespace MoviesAPI.Controllers
         /// </summary>
         /// <param name="year">searched year</param>
         /// <returns>Movies if found</returns>
-        [HttpGet("{year}")]
+        [HttpGet("year/{year}")]
         public async Task<IActionResult> Year(int year)
         {
             var movies = await _moviesService.GetMoviesByYear(year);
@@ -143,7 +143,7 @@ namespace MoviesAPI.Controllers
         /// </summary>
         /// <param name="title">searched title</param>
         /// <returns>Movies if found</returns>
-        [HttpGet("{title}")]
+        [HttpGet("title/{title}")]
         public async Task<IActionResult> Title(string title)
         {
             var movies = await _moviesService.GetMoviesByTitle(title);

@@ -9,6 +9,7 @@ using MoviesAPI.Models;
 
 namespace MoviesAPI.Controllers
 {
+    [Route("api/[controller]")]
     public class ActorController : Controller
     {
         private readonly IActorsService _actorsService;
@@ -22,6 +23,7 @@ namespace MoviesAPI.Controllers
         /// Get all actors
         /// </summary>
         /// <returns>List of actors</returns>
+        [HttpGet]
         public async Task<IActionResult> GetAllActors()
         {
             var list = await _actorsService.GetAllActors();
