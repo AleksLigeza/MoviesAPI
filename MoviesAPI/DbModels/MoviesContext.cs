@@ -8,12 +8,16 @@ namespace MoviesAPI.DbModels
             : base(options)
         { }
 
-        public DbSet<Movie> Movies { get; set; }
+        public MoviesContext()
+        {
+        }
 
-        public DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
 
-        public DbSet<Actor> Actors { get; set; }
-        public DbSet<MovieRole> MovieRoles { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+
+        public virtual DbSet<Actor> Actors { get; set; }
+        public virtual DbSet<MovieRole> MovieRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
