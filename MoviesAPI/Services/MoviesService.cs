@@ -84,5 +84,30 @@ namespace MoviesAPI.Services
                 .Where(x => x.Title.Contains(title))
                 .ToListAsync();
         }
+
+        public async Task<Movie> GetMovieWithYearAndTitle(string title, int year)
+        {
+            return await _moviesContext.Movies
+                .Where(x => x.Title.Equals(title) && x.Year == year)
+                .SingleOrDefaultAsync();
+        }
+
+
+        public async Task<int> AddRangeMovies(List<Movie> list)
+        {
+            int count = 0;
+            foreach (var movie in list)
+            {
+                if (await GetMovieWithYearAndTitle(movie.Title, movie.Year) == null)
+                {
+                    count++;
+                    AddNewMovie(movie);
+                }
+            }
+
+            await _moviesContext.SaveChangesAsync();
+            return count;
+        }
+
     }
 }

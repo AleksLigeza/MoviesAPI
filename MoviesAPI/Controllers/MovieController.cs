@@ -12,11 +12,15 @@ namespace MoviesAPI.Controllers
     {
         private readonly IMoviesService _moviesService;
         private readonly IReviewsService _reviewsService;
+        private readonly ITraktTVService _traktTvService;
 
-        public MovieController(IMoviesService moviesService, IReviewsService reviewsService)
+        public MovieController(IMoviesService moviesService, 
+            IReviewsService reviewsService,
+            ITraktTVService traktTvService)
         {
             _moviesService = moviesService;
             _reviewsService = reviewsService;
+            _traktTvService = traktTvService;
         }
 
         /// <summary>
@@ -148,6 +152,18 @@ namespace MoviesAPI.Controllers
         {
             var movies = await _moviesService.GetMoviesByTitle(title);
             return Ok(AutoMapper.Mapper.Map<List<MovieResponse>>(movies));
+        }
+
+        /// <summary>
+        /// Adds 10 most popular movies from TraktTV
+        /// </summary>
+        /// <returns>Count of added movies</returns>
+        [HttpPost]
+        public async Task<IActionResult> UpdateMostPopularMovies()
+        {
+            var list = await _traktTvService.GetPopularMovies();
+            var count = await _moviesService.AddRangeMovies(list);
+            return Ok(count);
         }
     }
 }

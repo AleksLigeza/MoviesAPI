@@ -18,5 +18,7 @@ namespace MoviesAPI.Interfaces
         Task<List<Actor>> GetMovieActors(int id);
         Task<List<Movie>> GetMoviesByYear(int year);
         Task<List<Movie>> GetMoviesByTitle(string title);
+
+        Task<int> AddRangeMovies(List<Movie> list);
     }
 }

@@ -10,6 +10,10 @@ namespace MoviesAPI.Mapping
         {
             CreateMap<MovieRequest, Movie>();
             CreateMap<Movie, MovieResponse>();
+
+            CreateMap<TraktTvMovie, Movie>()
+                .ForMember(dest => dest.Title, source => source.MapFrom(x => x.title))
+                .ForMember(dest => dest.Year, source => source.MapFrom(x => x.year));
         }
     }
 }
