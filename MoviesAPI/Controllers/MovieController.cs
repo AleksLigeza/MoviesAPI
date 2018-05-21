@@ -158,7 +158,7 @@ namespace MoviesAPI.Controllers
         /// Adds 10 most popular movies from TraktTV
         /// </summary>
         /// <returns>Count of added movies</returns>
-        [HttpPost]
+        [HttpPost("UpdatePopular")]
         public async Task<IActionResult> UpdateMostPopularMovies()
         {
             var list = await _traktTvService.GetPopularMovies();
