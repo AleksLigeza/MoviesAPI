@@ -29,7 +29,7 @@ namespace MoviesAPI.Services
 
         public async Task AddNewActor(Actor actor)
         {
-            await _moviesContext.Actors.AddAsync(actor);
+            _moviesContext.Actors.Add(actor);
             await _moviesContext.SaveChangesAsync();
         }
 

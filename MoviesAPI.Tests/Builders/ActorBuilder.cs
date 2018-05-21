@@ -7,40 +7,40 @@ namespace MoviesAPI.Tests.Builders
 {
     public class ActorBuilder
     {
-        private int id;
-        private string firstname;
-        private string lastname;
-        private ICollection<MovieRole> roles;
+        private int _id;
+        private string _firstname;
+        private string _lastname;
+        private ICollection<MovieRole> _roles;
 
         public ActorBuilder()
         {
-            id = 1;
-            firstname = "";
-            lastname = "";
-            roles = new List<MovieRole>();
+            _id = 1;
+            _firstname = "";
+            _lastname = "";
+            _roles = new List<MovieRole>();
         }
 
         public ActorBuilder WithId(int id)
         {
-            this.id = id;
+            _id = id;
             return this;
         }
 
         public ActorBuilder WithFirstname(string firstname)
         {
-            this.firstname = firstname;
+            _firstname = firstname;
             return this;
         }
 
         public ActorBuilder WithId(string lastname)
         {
-            this.lastname = lastname;
+            _lastname = lastname;
             return this;
         }
 
         public ActorBuilder WithRoles(ICollection<MovieRole> roles)
         {
-            this.roles = roles;
+            _roles = roles;
             return this;
         }
 
@@ -48,10 +48,10 @@ namespace MoviesAPI.Tests.Builders
         {
             return new Actor()
             {
-                Firstname = firstname,
-                Lastname = lastname,
-                Id = id,
-                Roles = roles
+                Firstname = _firstname,
+                Lastname = _lastname,
+                Id = _id,
+                Roles = _roles
             };
         }
     }
