@@ -17,9 +17,14 @@ namespace MoviesAPI.Services
         {
             var url = "https://api.trakt.tv/movies/popular";
             var response = await DownloadResponseForHttpGet(url);
+            var traktList =
+                (List<TraktTvMovie>)JsonConvert.DeserializeObject(response, typeof(List<TraktTvMovie>));
 
-            var traktList = (List<TraktTvMovie>)JsonConvert.DeserializeObject(response, typeof(List<TraktTvMovie>));
-            var list = AutoMapper.Mapper.Map<List<Movie>>(traktList).ToList();
+            var list = new List<Movie>();
+            if (traktList != null)
+            {
+                list = AutoMapper.Mapper.Map<List<Movie>>(traktList).ToList();
+            }
 
             return list;
         }
@@ -27,7 +32,7 @@ namespace MoviesAPI.Services
 
         #region Helpers
 
-        private async Task<string> DownloadResponseForHttpGet(string url)
+        public virtual async Task<string> DownloadResponseForHttpGet(string url)
         {
             string result = "";
 
